@@ -4,7 +4,10 @@ from selenium import webdriver #deal with the dynamic javascript
 ###VARIABLES TO CHANGE####
 
 #URL of the specific product
-URL = "https://www.costco.com/Oakley-OO9265-Latch-Matte-Gray-Polarized-Sunglasses.product.100406867.html"
+
+#URL = "https://www.costco.com/Oakley-OO9265-Latch-Matte-Gray-Polarized-Sunglasses.product.100406867.html"
+#URL = "https://www.costco.com/ECOS-Laundry-Detergent-Free-%2526-Clear-210-fl.-oz%2c-2-count.product.100347717.html"
+URL = "https://www.costco.com/Japanese-Wagyu-New-York-Strip-Loin-Roast%2c-A-5-Grade%2c-13-lbs.product.100311362.html"
 
 #Path to the driver
 PATH_TO_DRIVER = '/Users/jacobchudnovsky/Downloads/chromedriver'
@@ -38,7 +41,7 @@ soup = link_driver_and_make_soup(PATH_TO_DRIVER, URL)
 #    1. seo meta tags FINISHED
 #    2. product name FINISHED
 #    3. product description FINISHED
-#    4. product specifications
+#    4. product specifications FINISHED
 #    5. category
 #    6. price
 #    7. embedded images
@@ -55,17 +58,30 @@ def get_product_name():
 
 
 def get_product_description():
-    tags = list(soup.find('div', class_ = "product-info-description").descendants)
-    description = ""
+    tags = soup.find('div', class_ = "product-info-description").descendants
+    product_description = ""
 
     for tag in tags:
         if type(tag) is NavigableString:
             if tag.string is not None:
-                description += tag.string + "\n"
+                product_description += tag.string + "\n"
         else:
             continue
 
-    return description
+    return product_description
+
+def get_product_specification():
+    tags = soup.find('div', id = "pdp-accordion-collapse-2").descendants
+    product_specifications = ""
+
+    for tag in tags:
+        if type(tag) is NavigableString:
+            if tag.string is not None:
+                product_specifications += tag.string
+        else:
+            continue
+
+    return product_specifications
 
 '''
 def get_category():
@@ -76,4 +92,13 @@ def get_price():
 
 def get_embedded_images():
     ##
+
+def extract_and_load_all_data():
+    get_meta_tags()
+    get_product_name()
+    get_product_description()
+    get_product_specification()
+    get_category()
+    get_price()
+    get_embedded_images()
 '''
