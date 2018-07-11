@@ -4,7 +4,7 @@ from selenium import webdriver #deal with the dynamic javascript
 ###VARIABLES TO CHANGE####
 
 #URL of the specific product
-URL = "https://www.costco.com/Westport-Beautyrest-Fabric-Sleeper-Loveseat.product.100325179.html"
+URL = "https://www.costco.com/ECOS-Laundry-Detergent-Free-%2526-Clear-210-fl.-oz%2c-2-count.product.100347717.html"
 
 #Path to the driver
 PATH_TO_DRIVER = '/Users/jacobchudnovsky/Downloads/chromedriver'
@@ -28,7 +28,7 @@ driver.close()
 soup = BeautifulSoup(innerHTML, "html.parser")
 
 ## Now need to get the following from the page:
-#    1. seo meta tags
+#    1. seo meta tags FINISHED
 #    2. product name
 #    3. product description
 #    4. category
@@ -38,12 +38,16 @@ soup = BeautifulSoup(innerHTML, "html.parser")
 
 def get_meta_tags():
     for tags in soup.find_all('meta')[3:8]:
-        print(tags.get('name') + " is " + tags.get('content'))
+        return tags.get('name') + " is " + tags.get('content')
 
-'''
+
 def get_product_name():
-    ##
+    tag = soup.find('meta', property="og:description")
+    return tag.get('content')
 
+
+print(get_product_name())
+'''
 def get_product_description():
     ##
 
