@@ -18,13 +18,14 @@ driver = webdriver.Chrome(PATH_TO_DRIVER)
 driver.get(URL)
 
 #returns the inner HTML as a string
-innerHTML = driver.execute_script("return document.body.innerHTML")
+# innerHTML = driver.execute_script("return document.body.innerHTML")
+innerHTML = driver.page_source
 
 #closes the driver
 driver.close()
 
 #turns the html into an object to use with BeautifulSoup library
-soup = BeautifulSoup(innerHTML)
+soup = BeautifulSoup(innerHTML, "html.parser")
 
 ## Now need to get the following from the page:
 #    1. seo meta tags
@@ -34,10 +35,12 @@ soup = BeautifulSoup(innerHTML)
 #    5. price
 #    6. embedded images
 
-'''
-def get_meta_tags():
-    ##
 
+def get_meta_tags():
+    for tags in soup.find_all('meta')[3:8]:
+        print(tags.get('name') + " is " + tags.get('content'))
+
+'''
 def get_product_name():
     ##
 
