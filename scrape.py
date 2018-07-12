@@ -1,15 +1,16 @@
 from bs4 import BeautifulSoup, NavigableString #extract the html from the request
 from selenium import webdriver #deal with the dynamic javascript
-from  multiprocessing import Process
-
-###VARIABLES TO CHANGE####
+from multiprocessing import Process
+import csv
 
 #URLs of the specific products
 URLS = []
 
-#Path to the driver
-PATH_TO_DRIVER = '/Users/jacobchudnovsky/Downloads/chromedriver'
-##########################
+def add_driver_path():
+    path_file = open('DriverPath.txt', 'r')
+    path = path_file.read().strip()
+    path_file.close()
+    return path
 
 #Loads all the urls from the URLS.txt file and appends them to the array of urls
 def load_urls_from_text_file():
@@ -20,9 +21,9 @@ def load_urls_from_text_file():
     urls_file.close()
 
 #Establish the webdriver
-def link_driver():
+def link_driver(path_to_driver):
     #Establish the driver
-    driver = webdriver.Chrome(PATH_TO_DRIVER)
+    driver = webdriver.Chrome(path_to_driver)
     return driver
 
 #  1. Loads the html data
@@ -124,7 +125,8 @@ def extract_and_load_all_data(soup):
 #  4. extracts correct elements and loads it to csv file
 def run():
     load_urls_from_text_file()
-    driver = link_driver()
+    path = add_driver_path()
+    driver = link_driver(path)
     load_data(driver)
     quit_driver(driver)
 
