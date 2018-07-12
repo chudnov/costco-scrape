@@ -5,9 +5,9 @@ from selenium import webdriver #deal with the dynamic javascript
 
 #URL of the specific product
 
-URL = "https://www.costco.com/Oakley-OO9265-Latch-Matte-Gray-Polarized-Sunglasses.product.100406867.html"
+#URL = "https://www.costco.com/Oakley-OO9265-Latch-Matte-Gray-Polarized-Sunglasses.product.100406867.html"
 #URL = "https://www.costco.com/ECOS-Laundry-Detergent-Free-%2526-Clear-210-fl.-oz%2c-2-count.product.100347717.html"
-#URL = "https://www.costco.com/Japanese-Wagyu-New-York-Strip-Loin-Roast%2c-A-5-Grade%2c-13-lbs.product.100311362.html"
+URL = "https://www.costco.com/Japanese-Wagyu-New-York-Strip-Loin-Roast%2c-A-5-Grade%2c-13-lbs.product.100311362.html"
 
 #Path to the driver
 PATH_TO_DRIVER = '/Users/jacobchudnovsky/Downloads/chromedriver'
@@ -41,7 +41,7 @@ soup = link_driver_and_make_soup(PATH_TO_DRIVER, URL)
 #    2. product name FINISHED
 #    3. product description FINISHED
 #    4. product specifications FINISHED
-#    5. category
+#    5. category FINISHED
 #    6. price
 #    7. embedded images
 
@@ -72,7 +72,7 @@ def get_product_info(types):
                 data += tag.string
         else:
             continue
-            
+
     return data
 
 def get_product_description():
@@ -81,10 +81,11 @@ def get_product_description():
 def get_product_specification():
     return get_product_info("specification")
 
-'''
 def get_category():
-    ##
+    tags = soup.find('ul', id = "crumbs_ul")
+    return tags.contents[-2].text
 
+'''
 def get_price():
     ##
 
@@ -100,5 +101,3 @@ def extract_and_load_all_data():
     get_price()
     get_embedded_images()
 '''
-print(get_product_description())
-print(get_product_specification())
