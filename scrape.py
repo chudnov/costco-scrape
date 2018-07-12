@@ -67,7 +67,7 @@ def get_product_name(soup):
     return product_name
 
 # logic for getting product description/specification
-def get_product_info(types):
+def get_product_info(types, soup):
     if types == "description":
         tags = soup.find('div', class_ = "product-info-description").descendants
     elif types == "specification":
@@ -90,11 +90,11 @@ def get_product_info(types):
 
 # gets the product description
 def get_product_description(soup):
-    return get_product_info("description")
+    return get_product_info("description", soup)
 
 # gets the product specifications
 def get_product_specification(soup):
-    return get_product_info("specification")
+    return get_product_info("specification", soup)
 
 # gets the product category
 def get_category(soup):
@@ -113,13 +113,25 @@ def get_embedded_images(soup):
 
 # Load data to csv
 def extract_and_load_all_data(soup):
-    # get_meta_tags(soup)
-    print(get_product_name(soup))
-    # get_product_description(soup)
-    # get_product_specification(soup)
-    # get_category(soup)
-    # get_price(soup)
-    # get_embedded_images(soup)
+    field_names = ["Meta tags", "Name", "Description", "Specifications", "Category", "Price", "Image"]
+    output_data = open('OutputData.csv', 'a')
+    writer = csv.DictWriter(output_data, field_names, delimiter='\n')
+    writer.writerow({field: field for field in field_names})
+
+    collected_data = [
+        {
+            "Meta tags": get_meta_tags(soup),
+            "Name": get_product_name(soup),
+            "Description": get_product_description(soup),
+            "Specifications": get_product_specification(soup),
+            "Category": get_category(soup),
+            "Price": get_price(soup),
+            "Image": get_embedded_images(soup)
+        }
+    ]
+
+    for item_property_dict in collected_data:
+        writer.writerow(item_property_dict)
 
 #  1. Links the driver
 #  2. Loads the html data
