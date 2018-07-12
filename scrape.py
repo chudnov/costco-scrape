@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup, NavigableString #extract the html from the request
 from selenium import webdriver #deal with the dynamic javascript
+from  multiprocessing import Process
 
 ###VARIABLES TO CHANGE####
 
@@ -12,27 +13,25 @@ URLS = [
 
 #Path to the driver
 PATH_TO_DRIVER = '/Users/jacobchudnovsky/Downloads/chromedriver'
-
 ##########################
 
-def link_driver_and_make_soup(path_to_driver, url):
+def link_driver_and_make_soup():
     #Establish the driver
-    driver = webdriver.Chrome(path_to_driver)
+    driver = webdriver.Chrome(PATH_TO_DRIVER)
 
-    #Get the contents of the URL
-    driver.get(url)
+    for url in URLS:
+        #Get the contents of the URL
+        driver.get(url)
 
-    #returns the inner HTML as a string
-    # innerHTML = driver.execute_script("return document.body.innerHTML")
-    innerHTML = driver.page_source
+        #returns the inner HTML as a string
+        innerHTML = driver.page_source
+
+        #turns the html into an object to use with BeautifulSoup library
+        soup = BeautifulSoup(innerHTML, "html.parser")
+        extract_and_load_all_data(soup)
 
     #closes the driver
-    driver.close()
-
-    #turns the html into an object to use with BeautifulSoup library
-    soup = BeautifulSoup(innerHTML, "html.parser")
-
-    return soup
+    driver.quit()
 
 ## Now need to get the following from the page:
 #    1. seo meta tags
@@ -98,18 +97,24 @@ def get_embedded_images(soup):
     tag = soup.find('img', id = "productImage")
     return tag['src']
 
-
 # LOAD ALL DATA TO CSV
-def extract_and_load_all_data():
-    for url in URLS:
-        #The HTML to interact with
-        soup = link_driver_and_make_soup(PATH_TO_DRIVER, url)
-        # get_meta_tags(soup)
-        # get_product_name(soup)
-        # get_product_description(soup)
-        # get_product_specification(soup)
-        # get_category(soup)
-        # get_price(soup)
-        # get_embedded_images(soup)
+def extract_and_load_all_data(soup):
+    # get_meta_tags(soup)
+    # get_product_name(soup)
+    # get_product_description(soup)
+    # get_product_specification(soup)
+    # get_category(soup)
+    # get_price(soup)
+    # get_embedded_images(soup)
 
-extract_and_load_all_data()
+def run():
+    processes = []
+    # for urls in URLS:
+    p = Process(target=link_driver_and_make_soup, args=())
+    processes.append(p)
+    p.start()
+
+    for p in processes:
+        p.join()
+
+run()
