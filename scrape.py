@@ -33,27 +33,29 @@ def link_driver_and_make_soup(path_to_driver, url):
 
     return soup
 
-#The soup
+#The HTML to interact with
 soup = link_driver_and_make_soup(PATH_TO_DRIVER, URL)
 
 ## Now need to get the following from the page:
-#    1. seo meta tags FINISHED
-#    2. product name FINISHED
-#    3. product description FINISHED
-#    4. product specifications FINISHED
-#    5. category FINISHED
-#    6. price FINISHED
+#    1. seo meta tags
+#    2. product name
+#    3. product description
+#    4. product specifications
+#    5. category
+#    6. price
 #    7. embedded images
 
-
+# gets the seo meta tags
 def get_meta_tags():
     meta_tags = [tags.get('name') + " is " + tags.get('content') for tags in soup.find_all('meta')[3:8]]
     return meta_tags
 
+# gets the product name
 def get_product_name():
     product_name = soup.find('meta', property="og:description").get('content')
     return product_name
 
+# logic for getting product description/specification
 def get_product_info(types):
     if types == "description":
         tags = soup.find('div', class_ = "product-info-description").descendants
@@ -75,25 +77,31 @@ def get_product_info(types):
 
     return data
 
+# gets the product description
 def get_product_description():
     return get_product_info("description")
 
+# gets the product specifications
 def get_product_specification():
     return get_product_info("specification")
 
+# gets the product category
 def get_category():
     tags = soup.find('ul', id = "crumbs_ul")
     return tags.contents[-2].text
 
+# gets the product price
 def get_price():
     tag = soup.find('span', class_ = "op-value")
     return tag.text
 
+# gets the product image
 def get_embedded_images():
     tag = soup.find('img', id = "productImage")
     return tag['src']
 
 '''
+# LOAD ALL DATA TO CSV
 def extract_and_load_all_data():
     get_meta_tags()
     get_product_name()
