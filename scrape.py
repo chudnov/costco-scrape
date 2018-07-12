@@ -44,6 +44,7 @@ def load_data(webdriver):
 
 #closes the driver
 def quit_driver(webdriver):
+    webdriver.close()
     webdriver.quit()
 
 ## Now need to get the following from the page:
