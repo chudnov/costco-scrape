@@ -3,11 +3,12 @@ from selenium import webdriver #deal with the dynamic javascript
 
 ###VARIABLES TO CHANGE####
 
-#URL of the specific product
-
-#URL = "https://www.costco.com/Oakley-OO9265-Latch-Matte-Gray-Polarized-Sunglasses.product.100406867.html"
-#URL = "https://www.costco.com/ECOS-Laundry-Detergent-Free-%2526-Clear-210-fl.-oz%2c-2-count.product.100347717.html"
-URL = "https://www.costco.com/Japanese-Wagyu-New-York-Strip-Loin-Roast%2c-A-5-Grade%2c-13-lbs.product.100311362.html"
+#URLs of the specific products
+URLS = [
+"https://www.costco.com/Japanese-Wagyu-New-York-Strip-Loin-Roast%2c-A-5-Grade%2c-13-lbs.product.100311362.html",
+"https://www.costco.com/Oakley-OO9265-Latch-Matte-Gray-Polarized-Sunglasses.product.100406867.html",
+"https://www.costco.com/ECOS-Laundry-Detergent-Free-%2526-Clear-210-fl.-oz%2c-2-count.product.100347717.html"
+]
 
 #Path to the driver
 PATH_TO_DRIVER = '/Users/jacobchudnovsky/Downloads/chromedriver'
@@ -33,9 +34,6 @@ def link_driver_and_make_soup(path_to_driver, url):
 
     return soup
 
-#The HTML to interact with
-soup = link_driver_and_make_soup(PATH_TO_DRIVER, URL)
-
 ## Now need to get the following from the page:
 #    1. seo meta tags
 #    2. product name
@@ -46,12 +44,12 @@ soup = link_driver_and_make_soup(PATH_TO_DRIVER, URL)
 #    7. embedded images
 
 # gets the seo meta tags
-def get_meta_tags():
+def get_meta_tags(soup):
     meta_tags = [tags.get('name') + " is " + tags.get('content') for tags in soup.find_all('meta')[3:8]]
     return meta_tags
 
 # gets the product name
-def get_product_name():
+def get_product_name(soup):
     product_name = soup.find('meta', property="og:description").get('content')
     return product_name
 
@@ -78,36 +76,40 @@ def get_product_info(types):
     return data
 
 # gets the product description
-def get_product_description():
+def get_product_description(soup):
     return get_product_info("description")
 
 # gets the product specifications
-def get_product_specification():
+def get_product_specification(soup):
     return get_product_info("specification")
 
 # gets the product category
-def get_category():
+def get_category(soup):
     tags = soup.find('ul', id = "crumbs_ul")
     return tags.contents[-2].text
 
 # gets the product price
-def get_price():
+def get_price(soup):
     tag = soup.find('span', class_ = "op-value")
     return tag.text
 
 # gets the product image
-def get_embedded_images():
+def get_embedded_images(soup):
     tag = soup.find('img', id = "productImage")
     return tag['src']
 
-'''
+
 # LOAD ALL DATA TO CSV
 def extract_and_load_all_data():
-    get_meta_tags()
-    get_product_name()
-    get_product_description()
-    get_product_specification()
-    get_category()
-    get_price()
-    get_embedded_images()
-'''
+    for url in URLS:
+        #The HTML to interact with
+        soup = link_driver_and_make_soup(PATH_TO_DRIVER, url)
+        # get_meta_tags(soup)
+        # get_product_name(soup)
+        # get_product_description(soup)
+        # get_product_specification(soup)
+        # get_category(soup)
+        # get_price(soup)
+        # get_embedded_images(soup)
+
+extract_and_load_all_data()
