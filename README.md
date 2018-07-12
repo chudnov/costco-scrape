@@ -45,7 +45,7 @@ For every iteration of scraping:
   2. Paste **10** new urls, each on its own line, without quotation lines
   3. On the command line, go into the directory of this github repository and run:
   
-     `python scrape.py`
+     `python3 scrape.py`
   
   4. Open the **OutputData.csv** file and voila, all the data is loaded!
   
