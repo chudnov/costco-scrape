@@ -33,6 +33,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Set Up:
 1. In the **DriverPath.txt** file, paste the path of the webdriver you installed above
+
+   Example: `C:/Users/johndoe/Downloads/chromedriver`
+   
 2. If you installed a driver other than **Chrome**, open **Scrape.py** and do the following:
    
    On line 27, by default there is `driver = webdriver.Chrome(path_to_driver)`
@@ -42,12 +45,12 @@ These instructions will get you a copy of the project up and running on your loc
 ### Running:
 For every iteration of scraping:
   1. In the **URLS.txt** file, delete all the current urls there
-  2. Paste **10** new urls, each on its own line, without quotation lines
+  2. Paste **10** new links, each on its own line, without quotation lines  
   3. On the command line, go into the directory of this github repository and run:
   
      `python3 scrape.py`
   
-  4. Open the **OutputData.csv** file and voila, all the data is loaded!
+  4. Open the **OutputData.csv** file and voila, all the data from the above 10 links is loaded!
   
   5. Congratulations!
   
