@@ -6,7 +6,8 @@ import csv
 #URLs of the specific products
 URLS = []
 
-def add_driver_path():
+#Load the path of the driver for use
+def load_driver_path():
     path_file = open('DriverPath.txt', 'r')
     path = path_file.read().strip()
     path_file.close()
@@ -125,7 +126,7 @@ def extract_and_load_all_data(soup):
 #  4. extracts correct elements and loads it to csv file
 def run():
     load_urls_from_text_file()
-    path = add_driver_path()
+    path = load_driver_path()
     driver = link_driver(path)
     load_data(driver)
     quit_driver(driver)
