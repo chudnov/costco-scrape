@@ -6,32 +6,47 @@ from  multiprocessing import Process
 
 #URLs of the specific products
 URLS = [
-"https://www.costco.com/Japanese-Wagyu-New-York-Strip-Loin-Roast%2c-A-5-Grade%2c-13-lbs.product.100311362.html",
-"https://www.costco.com/Oakley-OO9265-Latch-Matte-Gray-Polarized-Sunglasses.product.100406867.html",
-"https://www.costco.com/ECOS-Laundry-Detergent-Free-%2526-Clear-210-fl.-oz%2c-2-count.product.100347717.html"
+# "https://www.costco.com/Japanese-Wagyu-New-York-Strip-Loin-Roast%2c-A-5-Grade%2c-13-lbs.product.100311362.html",
+# "https://www.costco.com/Oakley-OO9265-Latch-Matte-Gray-Polarized-Sunglasses.product.100406867.html",
+# "https://www.costco.com/ECOS-Laundry-Detergent-Free-%2526-Clear-210-fl.-oz%2c-2-count.product.100347717.html"
 ]
 
 #Path to the driver
 PATH_TO_DRIVER = '/Users/jacobchudnovsky/Downloads/chromedriver'
 ##########################
 
-def link_driver_and_make_soup():
+#Loads all the urls from the URLS.txt file and appends them to the array of urls
+def load_urls_from_text_file():
+    urls_file = open('URLS.txt', 'r')
+    urls = urls_file.readlines()
+    for url in urls:
+        URLS.append(url.strip())
+    urls_file.close()
+
+#Establish the webdriver
+def link_driver():
     #Establish the driver
     driver = webdriver.Chrome(PATH_TO_DRIVER)
+    return driver
 
+#  1. Loads the html data
+#  2. Turns it into soup
+def load_data(webdriver):
     for url in URLS:
         #Get the contents of the URL
-        driver.get(url)
+        webdriver.get(url)
 
         #returns the inner HTML as a string
-        innerHTML = driver.page_source
+        innerHTML = webdriver.page_source
 
         #turns the html into an object to use with BeautifulSoup library
         soup = BeautifulSoup(innerHTML, "html.parser")
+
         extract_and_load_all_data(soup)
 
-    #closes the driver
-    driver.quit()
+#closes the driver
+def quit_driver(webdriver):
+    webdriver.quit()
 
 ## Now need to get the following from the page:
 #    1. seo meta tags
@@ -97,24 +112,31 @@ def get_embedded_images(soup):
     tag = soup.find('img', id = "productImage")
     return tag['src']
 
-# LOAD ALL DATA TO CSV
+# Load data to csv
 def extract_and_load_all_data(soup):
     # get_meta_tags(soup)
-    # get_product_name(soup)
+    print(get_product_name(soup))
     # get_product_description(soup)
     # get_product_specification(soup)
     # get_category(soup)
     # get_price(soup)
     # get_embedded_images(soup)
 
+#  1. Links the driver
+#  2. Loads the html data
+#  3. Turns it into soup
+#  4. extracts correct elements and loads it to csv file
 def run():
-    processes = []
-    # for urls in URLS:
-    p = Process(target=link_driver_and_make_soup, args=())
-    processes.append(p)
-    p.start()
+    load_urls_from_text_file()
+    driver = link_driver()
+    load_data(driver)
+    quit_driver(driver)
 
-    for p in processes:
-        p.join()
+#create multiple threads for selenium web scraping - ASYNC
+processes = []
+p = Process(target=run, args=())
+processes.append(p)
+p.start()
 
-run()
+for p in processes:
+    p.join()
