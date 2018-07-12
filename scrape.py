@@ -5,9 +5,9 @@ from selenium import webdriver #deal with the dynamic javascript
 
 #URL of the specific product
 
-#URL = "https://www.costco.com/Oakley-OO9265-Latch-Matte-Gray-Polarized-Sunglasses.product.100406867.html"
+URL = "https://www.costco.com/Oakley-OO9265-Latch-Matte-Gray-Polarized-Sunglasses.product.100406867.html"
 #URL = "https://www.costco.com/ECOS-Laundry-Detergent-Free-%2526-Clear-210-fl.-oz%2c-2-count.product.100347717.html"
-URL = "https://www.costco.com/Japanese-Wagyu-New-York-Strip-Loin-Roast%2c-A-5-Grade%2c-13-lbs.product.100311362.html"
+#URL = "https://www.costco.com/Japanese-Wagyu-New-York-Strip-Loin-Roast%2c-A-5-Grade%2c-13-lbs.product.100311362.html"
 
 #Path to the driver
 PATH_TO_DRIVER = '/Users/jacobchudnovsky/Downloads/chromedriver'
@@ -85,10 +85,11 @@ def get_category():
     tags = soup.find('ul', id = "crumbs_ul")
     return tags.contents[-2].text
 
-'''
 def get_price():
-    ##
+    tag = soup.find('span', class_ = "op-value")
+    return tag.text
 
+'''
 def get_embedded_images():
     ##
 
@@ -101,3 +102,5 @@ def extract_and_load_all_data():
     get_price()
     get_embedded_images()
 '''
+
+print(get_price())
