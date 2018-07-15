@@ -152,3 +152,7 @@ p.start()
 
 for p in processes:
     p.join()
+
+
+if __name__ == '__main__':
+    freeze_support ()
