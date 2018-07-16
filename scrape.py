@@ -144,15 +144,16 @@ def run():
     load_data(driver)
     quit_driver(driver)
 
-#create multiple threads for selenium web scraping - ASYNC
-processes = []
-p = Process(target=run, args=())
-processes.append(p)
-p.start()
+def main():
+    #create multiple threads for selenium web scraping - ASYNC
+    processes = []
+    p = Process(target=run, args=())
+    processes.append(p)
+    p.start()
 
-for p in processes:
-    p.join()
+    for p in processes:
+        p.join()
 
-
-if __name__ == '__main__':
-    freeze_support ()
+if __name__ == "__main__":
+    main()
+    
