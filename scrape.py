@@ -99,7 +99,9 @@ def get_product_specification(soup):
 # gets the product category
 def get_category(soup):
     tags = soup.find('ul', id = "crumbs_ul")
-    return tags.contents[-2].text
+    data=""
+    data += tags.contents[-2].text
+    return data
 
 # gets the product price
 def get_price(soup):
@@ -133,6 +135,8 @@ def extract_and_load_all_data(soup):
     for item_property_dict in collected_data:
         writer.writerow(item_property_dict)
 
+    writer.close()
+
 #  1. Links the driver
 #  2. Loads the html data
 #  3. Turns it into soup
@@ -156,4 +160,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
