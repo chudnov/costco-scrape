@@ -86,7 +86,7 @@ def get_product_info(types, soup):
         else:
             continue
 
-    return data
+    return "\"" + data.replace("\"", "\"\"") + "\""
 
 # gets the product description
 def get_product_description(soup):
@@ -99,9 +99,9 @@ def get_product_specification(soup):
 # gets the product category
 def get_category(soup):
     tags = soup.find('ul', id = "crumbs_ul")
-    data=""
-    data += tags.contents[-2].text
-    return data
+    data = tags.contents[-2].text
+
+    return '\n'.join([x for x in data.split("\n") if x.strip()!=''])
 
 # gets the product price
 def get_price(soup):
@@ -117,7 +117,7 @@ def get_embedded_images(soup):
 def extract_and_load_all_data(soup):
     field_names = ["Meta tags", "Name", "Description", "Specifications", "Category", "Price", "Image"]
     output_data = open('OutputData.csv', 'a')
-    writer = csv.DictWriter(output_data, field_names, dialect='excel', delimiter='\n')
+    writer = csv.DictWriter(output_data, field_names, dialect='excel', delimiter='\n', lineterminator="\r\n")
     writer.writerow({field: field for field in field_names})
 
     collected_data = [
