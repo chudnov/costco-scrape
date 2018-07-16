@@ -99,7 +99,9 @@ def get_product_specification(soup):
 # gets the product category
 def get_category(soup):
     tags = soup.find('ul', id = "crumbs_ul")
-    return tags.contents[-2].text
+    data=""
+    data += tags.contents[-2].text
+    return data
 
 # gets the product price
 def get_price(soup):
@@ -115,7 +117,7 @@ def get_embedded_images(soup):
 def extract_and_load_all_data(soup):
     field_names = ["Meta tags", "Name", "Description", "Specifications", "Category", "Price", "Image"]
     output_data = open('OutputData.csv', 'a')
-    writer = csv.DictWriter(output_data, field_names, delimiter='\n')
+    writer = csv.DictWriter(output_data, field_names, dialect='excel', delimiter='\n')
     writer.writerow({field: field for field in field_names})
 
     collected_data = [
@@ -133,7 +135,7 @@ def extract_and_load_all_data(soup):
     for item_property_dict in collected_data:
         writer.writerow(item_property_dict)
 
-    writer.close()
+    output_data.close()
 
 #  1. Links the driver
 #  2. Loads the html data
