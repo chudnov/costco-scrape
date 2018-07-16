@@ -99,9 +99,7 @@ def get_product_specification(soup):
 # gets the product category
 def get_category(soup):
     tags = soup.find('ul', id = "crumbs_ul")
-    data=""
-    data += tags.contents[-2].text
-    return data
+    return tags.contents[-2].text
 
 # gets the product price
 def get_price(soup):
