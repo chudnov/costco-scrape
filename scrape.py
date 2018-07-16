@@ -117,7 +117,12 @@ def get_embedded_images(soup):
 def extract_and_load_all_data(soup):
     field_names = ["Meta tags", "Name", "Description", "Specifications", "Category", "Price", "Image"]
     output_data = open('OutputData.csv', 'a')
-    writer = csv.DictWriter(output_data, field_names, dialect='excel', delimiter='\n', lineterminator="\r\n")
+
+    writer = csv.DictWriter(output_data, field_names,
+        delimiter='\n')#,
+        #dialect='excel',
+        #lineterminator="\r\n")
+
     writer.writerow({field: field for field in field_names})
 
     collected_data = [
