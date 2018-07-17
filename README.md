@@ -54,6 +54,8 @@ For every iteration of scraping:
   
      `python scrape.py`
   
+  5. That should run without any errors! In case there are, there could be something wrong with steps 2-3.
+  
   4. Open the **OutputData.csv** file and voila, all the data from the above 10 links is loaded!
   
   5. Congratulations!
