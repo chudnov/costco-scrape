@@ -16,7 +16,7 @@ This script ONLY works for the **Costco** website. It will break for any other w
 These instructions will get you a copy of the project up and running on your local machine for testing purposes. 
 
 ### Prerequisites:
-- [Python 3.7.0](https://www.python.org/downloads/windows/) 
+- [Python 3.7.0](https://www.python.org/downloads/windows/), make sure in the installation directions to click "Default Path", and click the check button to install PIP as well
 
   Once Python 3.7 is installed:
 
@@ -25,16 +25,16 @@ These instructions will get you a copy of the project up and running on your loc
 
   - Selenium: 
   
-    `C:\Python37\Scripts\pip install selenium`
+    `pip install selenium`
 
   - BeautifulSoup: 
   
-    `C:\Python37\Scripts\pip install beautifulsoup4`
+    `pip install beautifulsoup4`
 
 ### Set Up:
 1. In the **DriverPath.txt** file, paste the path of the webdriver you installed above
 
-   Example: `C:/Users/johndoe/Downloads/chromedriver`
+   `C:\Users\DAE\Downloads\Chromedriver`
    
 2. If you installed a driver other than **Chrome**, open **Scrape.py** and do the following:
    
@@ -46,9 +46,13 @@ These instructions will get you a copy of the project up and running on your loc
 For every iteration of scraping:
   1. In the **URLS.txt** file, delete all the current urls there
   2. Paste **10** new links, each on its own line, without quotation lines  
-  3. On the command line, go into the directory of this github repository and run:
+  3. On the command line, go to the directory of the github repository by running:
+     
+     `cd /d C:\Users\DAE\Documents\CostcoScrape\costco-scrape-master`
+     
+  4. On the command line, start the script by running:
   
-     `python3 scrape.py`
+     `python scrape.py`
   
   4. Open the **OutputData.csv** file and voila, all the data from the above 10 links is loaded!
   
