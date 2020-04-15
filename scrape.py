@@ -58,7 +58,7 @@ def quit_driver(webdriver):
 
 # gets the seo meta tags
 def get_meta_tags(soup):
-    meta_tags = [tags.get('name') + " is " + tags.get('content') for tags in soup.find_all('meta')[3:8]]
+    meta_tags = [tags.get('name') + " is " + tags.get('content') for tags in soup.find_all('meta')[4:9]]
     return meta_tags
 
 # gets the product name
@@ -98,7 +98,7 @@ def get_product_specification(soup):
 
 # gets the product category
 def get_category(soup):
-    tags = soup.find('ul', id = "crumbs_ul")
+    tags = soup.find('ol', id = "crumbs_ul")
     data = tags.contents[-2].text
 
     return '\n'.join([x for x in data.split("\n") if x.strip()!=''])
